@@ -27,7 +27,6 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-	g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
 	for (auto& d : g_v) {
 		g_Renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 							      d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
