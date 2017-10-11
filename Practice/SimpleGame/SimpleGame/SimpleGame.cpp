@@ -32,12 +32,15 @@ void RenderScene(void)
 							      d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
 			                      d->GetColor().a);
 	}
+
+	for (auto& d : g_v) d->Update();
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
 	RenderScene();
+	for (auto& d : g_v) d->Update();
 }
 
 void MouseInput(int button, int state, int x, int y)

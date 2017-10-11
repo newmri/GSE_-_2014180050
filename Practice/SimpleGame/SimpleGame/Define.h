@@ -7,4 +7,6 @@
 
 using namespace std;
 
+const float SPEED = 1000.0f;
+
 #define FACTORYMANAGER CFactory::GetInstance()

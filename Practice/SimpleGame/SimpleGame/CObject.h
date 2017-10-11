@@ -9,7 +9,20 @@ struct Pos
 	{
 		x = 0.0f, y = 0.0f, z = 0.0f;
 	}
+
+	Pos(float newX, float newY) : x(newX), y(newY) {};
 	Pos(float newX, float newY, float newZ) : x(newX), y(newY), z(newZ) {};
+
+	Pos operator*(float time)
+	{
+		Pos pos(this->x * time, this->y * time, this->z * time);
+		return pos;
+	}
+	Pos operator+(Pos pos)
+	{
+		Pos retPos(this->x + pos.x, this->y + pos.y, this->z + pos.z);
+		return retPos;
+	}
 
 };
 
@@ -38,7 +51,7 @@ public:
 			  const float newSize, const Color newColor);
 
 
-	void Update() {};
+	void Update();
 	// virtual void Update() = 0;
 public:
 	const OBJTYPE& GetObjType() { return m_objType; }
@@ -54,6 +67,7 @@ public:
 private:
 	OBJTYPE			m_objType;
 	Pos				m_pos;
+	Pos				m_vPos;
 	Color			m_color;
 	float			m_size;
 
