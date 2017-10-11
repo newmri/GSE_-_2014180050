@@ -1,4 +1,8 @@
-﻿  SimpleGame.cpp
+﻿  stdafx.cpp
+  SimpleGame.cpp
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\simplegame.cpp(52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Renderer.cpp
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\renderer.cpp(63): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
   CObject.cpp
   CFactory.cpp
   Generating Code...
