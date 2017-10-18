@@ -17,5 +17,10 @@ void CSceneMgr::Init()
 
 void CSceneMgr::Update()
 {
+	for (auto& d : m_objects) {
+		for (int i = 0; i < MAX_OBJECTS_COUNT; ++i) {
+			if(d != m_objects[i]) d->CheckCollision(m_objects[i]);
+		}
+	}
 	for (auto& d : m_objects) d->Update();
 }

@@ -2,6 +2,8 @@
 
 #include "Enum.h"
 
+#include <memory>
+
 struct Pos
 {
 	float x, y, z;
@@ -52,7 +54,12 @@ public:
 
 
 	void Update();
+	void Move();
 	// virtual void Update() = 0;
+
+public:
+	void CheckCollision(std::shared_ptr<CObject> other);
+
 public:
 	const OBJTYPE& GetObjType() { return m_objType; }
 	const Pos& GetPos() { return m_pos; }

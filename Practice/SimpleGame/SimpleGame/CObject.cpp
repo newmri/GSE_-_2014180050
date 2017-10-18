@@ -22,7 +22,31 @@ void CObject::Init(const OBJTYPE newObjType, const Pos newPos,
 	}
 }
 
+void CObject::CheckCollision(shared_ptr<CObject> other)
+{
+	if (((m_pos.x + (m_size / 2)) > (other->GetPos().x - (m_size / 2))) && // Right
+		((m_pos.x - (m_size / 2)) < (other->GetPos().x + (m_size / 2))) && // Left
+		((m_pos.y + (m_size / 2)) > (other->GetPos().y - (m_size / 2))) && // Top
+		((m_pos.y - (m_size / 2)) < (other->GetPos().y + (m_size / 2)))) { // Bottom
+		this->SetColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
+		other->SetColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+}
+
+void CObject::Move()
+{
+	if ((m_pos.x + (m_size / 2) > WINDOW_WIDTH / 2) || // End of Right
+		((m_pos.x - (m_size / 2) <  WINDOW_WIDTH / 2.0 * -1.0f))) // End of Left
+		m_vPos.x = -m_vPos.x;
+
+	if ((m_pos.y + (m_size / 2) > WINDOW_HEIGHT / 2) || // End of Top
+		((m_pos.y - (m_size / 2) <  WINDOW_HEIGHT / 2.0 * -1.0f))) // End of Bottom
+		m_vPos.y = -m_vPos.y;
+
+	m_pos = m_pos + m_vPos * (1.0f / 1000.0f);
+}
 void CObject::Update()
 {
-	m_pos = m_pos + m_vPos * (1.0f / 1000.0f);
+	this->Move();
 }
