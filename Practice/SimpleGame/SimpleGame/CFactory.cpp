@@ -5,10 +5,10 @@
 
 CFactory* CFactory::m_instance = nullptr;
 
-unique_ptr<CObject> CFactory::CreateObj(const OBJTYPE objType, const Pos pos,
+shared_ptr<CObject> CFactory::CreateObj(const OBJTYPE objType, const Pos pos,
 										const float size, const Color color)
 {
-	unique_ptr<CObject> p = nullptr;
+	shared_ptr<CObject> p = nullptr;
 
 	switch (objType) {
 	case OBJTYPE::OBJECT: p = make_unique<CObject>(); break;

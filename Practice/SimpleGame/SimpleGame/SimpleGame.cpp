@@ -19,7 +19,7 @@ but WITHOUT ANY WARRANTY.
 
 Renderer *g_Renderer = NULL;
 
-vector<unique_ptr<CObject>> g_v;
+CSceneMgr g_SceneMgr;
 
 void RenderScene(void)
 {
@@ -27,25 +27,26 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-	for (auto& d : g_v) {
+	for (auto& d : g_SceneMgr.GetObjects()) {
 		g_Renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 							      d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
 			                      d->GetColor().a);
 	}
 
-	for (auto& d : g_v) d->Update();
+	g_SceneMgr.Update();
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
 	RenderScene();
-	for (auto& d : g_v) d->Update();
+	g_SceneMgr.Update();
 }
 
 void MouseInput(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		/*
 		CObject obj;
 		float w = 500;
 		float h = 500;
@@ -53,6 +54,7 @@ void MouseInput(int button, int state, int x, int y)
 		pos.x = (x - w / 2.0f) * (1.0f / (w / 2.0f));
 		pos.y = -(y - h / 2.0f) * (1.0f / (h / 2.0f));
 		g_v.emplace_back(FACTORYMANAGER->CreateObj(OBJTYPE::OBJECT, pos, 4, Color(1, 0, 1, 1)));
+		*/
 	}
 	RenderScene();
 }
@@ -77,8 +79,7 @@ int main(int argc, char **argv)
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
-	g_v.emplace_back(FACTORYMANAGER->CreateObj(OBJTYPE::OBJECT, Pos(0, 0, 0), 4, Color(1, 0, 1, 1)));
-
+	srand(time(NULL));
 	if (glewIsSupported("GL_VERSION_3_0"))
 	{
 		std::cout << " GLEW Version is 3.0\n ";

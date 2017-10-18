@@ -18,7 +18,7 @@ public:
 		return m_instance;
 	}
 
-	std::unique_ptr<CObject> CreateObj(const OBJTYPE objType, const Pos pos,
+	std::shared_ptr<CObject> CreateObj(const OBJTYPE objType, const Pos pos,
 									   const float size, const Color color);
 
 private:

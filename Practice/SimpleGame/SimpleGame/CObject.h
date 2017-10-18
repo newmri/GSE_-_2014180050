@@ -48,7 +48,7 @@ public:
 	*/
 	// For test
 	void Init(const OBJTYPE newObjType, const Pos newPos,
-			  const float newSize, const Color newColor);
+		const float newSize, const Color newColor);
 
 
 	void Update();
@@ -64,7 +64,7 @@ public:
 	void SetColor(const Color newColor) { m_color = newColor; }
 	void SetSize(const float newSize) { m_size = newSize; }
 
-private:
+protected:
 	OBJTYPE			m_objType;
 	Pos				m_pos;
 	Pos				m_vPos;
