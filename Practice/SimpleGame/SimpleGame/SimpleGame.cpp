@@ -46,15 +46,11 @@ void Idle(void)
 void MouseInput(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		/*
-		CObject obj;
-		float w = 500;
-		float h = 500;
 		Pos pos(x,y);
-		pos.x = (x - w / 2.0f) * (1.0f / (w / 2.0f));
-		pos.y = -(y - h / 2.0f) * (1.0f / (h / 2.0f));
-		g_v.emplace_back(FACTORYMANAGER->CreateObj(OBJTYPE::OBJECT, pos, 4, Color(1, 0, 1, 1)));
-		*/
+		pos.x = x - 250.0f;
+		pos.y = 250.0f - y;
+		g_SceneMgr.AddObject(FACTORYMANAGER->CreateObj(OBJTYPE::OBJECT, pos, 4, Color(1.0f, 1.0f, 1.0f, 1.0f)));
+		
 	}
 	RenderScene();
 }

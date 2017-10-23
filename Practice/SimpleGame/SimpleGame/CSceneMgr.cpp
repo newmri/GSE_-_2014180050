@@ -11,8 +11,10 @@ void CSceneMgr::Init()
 		pos.y = static_cast<float>(rand() % (WINDOW_HEIGHT / 2));
 		if (rand() % 2) pos.y = -pos.y;
 		m_objects.emplace_back(FACTORYMANAGER->CreateObj(OBJTYPE::OBJECT, pos, 4,
-			Color(1.0f, 1.0f, 1.0f, 1)));
+			Color(1.0f, 1.0f, 1.0f, 1.0f)));
 	}
+
+	m_time = GetTickCount();
 }
 
 void CSceneMgr::Update()
@@ -23,4 +25,8 @@ void CSceneMgr::Update()
 		}
 	}
 	for (auto& d : m_objects) d->Update();
+	if (m_time + COLOR_ROLL_BACK_TIME < GetTickCount()) {
+		for (auto& d : m_objects) d->SetColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
+		m_time = GetTickCount();
+	}
 }
