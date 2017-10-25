@@ -1,2 +1,11 @@
-﻿  SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
+﻿  CFactory.cpp
+  Generating Code...
+  Compiling...
+  SimpleGame.cpp
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\simplegame.cpp(54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\simplegame.cpp(83): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  CSceneMgr.cpp
+  CObject.cpp
+  Generating Code...
+  SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
   SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.pdb (Partial PDB)

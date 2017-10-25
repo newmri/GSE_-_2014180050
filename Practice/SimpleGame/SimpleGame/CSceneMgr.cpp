@@ -17,16 +17,19 @@ void CSceneMgr::Init()
 	m_time = GetTickCount();
 }
 
-void CSceneMgr::Update()
+void CSceneMgr::Update(float time)
 {
+
 	for (auto& d : m_objects) {
 		for (int i = 0; i < MAX_OBJECTS_COUNT; ++i) {
 			if(d != m_objects[i]) d->CheckCollision(m_objects[i]);
 		}
 	}
-	for (auto& d : m_objects) d->Update();
+
+	for (auto& d : m_objects) d->Update(time);
 	if (m_time + COLOR_ROLL_BACK_TIME < GetTickCount()) {
 		for (auto& d : m_objects) d->SetColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
 		m_time = GetTickCount();
 	}
+
 }

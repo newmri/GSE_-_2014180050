@@ -4,6 +4,7 @@
 
 #include <memory>
 
+
 struct Pos
 {
 	float x, y, z;
@@ -53,7 +54,7 @@ public:
 		const float newSize, const Color newColor);
 
 
-	void Update();
+	void Update(float time);
 	void Move();
 	// virtual void Update() = 0;
 
@@ -65,6 +66,7 @@ public:
 	const Pos& GetPos() { return m_pos; }
 	const Color& GetColor() { return m_color; }
 	const float& GetSize() { return m_size; }
+	const float& GetLife() { return m_life; }
 
 public:
 	void SetPos(const Pos newPos) { m_pos = newPos; }
@@ -77,5 +79,7 @@ protected:
 	Pos				m_vPos;
 	Color			m_color;
 	float			m_size;
+	float			m_time;
+	float			m_life, m_lifeTime;
 
 };

@@ -17,12 +17,18 @@ but WITHOUT ANY WARRANTY.
 #include "Define.h"
 #include "Objects.h"
 
+#pragma comment(lib, "winmm.lib")
 Renderer *g_Renderer = NULL;
 
 CSceneMgr g_SceneMgr;
 
+high_resolution_clock::time_point g_lastTime = high_resolution_clock::now();
+
 void RenderScene(void)
 {
+	high_resolution_clock::time_point  curr = high_resolution_clock::now();
+	milliseconds elpsedTime = duration_cast<milliseconds>(curr - g_lastTime);
+	g_lastTime = curr;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
@@ -33,14 +39,13 @@ void RenderScene(void)
 			                      d->GetColor().a);
 	}
 
-	g_SceneMgr.Update();
+	g_SceneMgr.Update(static_cast<float>(elpsedTime.count()));
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
 	RenderScene();
-	g_SceneMgr.Update();
 }
 
 void MouseInput(int button, int state, int x, int y)
@@ -87,6 +92,7 @@ int main(int argc, char **argv)
 
 	// Initialize Renderer
 	g_Renderer = new Renderer(500, 500);
+
 	if (!g_Renderer->IsInitialized())
 	{
 		std::cout << "Renderer could not be initialized.. \n";
