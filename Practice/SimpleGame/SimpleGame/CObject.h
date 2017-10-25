@@ -67,6 +67,10 @@ public:
 	const Color& GetColor() { return m_color; }
 	const float& GetSize() { return m_size; }
 	const float& GetLife() { return m_life; }
+	const bool DoHavetoBeRemoved()
+	{
+		return (m_life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));
+	}
 
 public:
 	void SetPos(const Pos newPos) { m_pos = newPos; }
@@ -80,6 +84,6 @@ protected:
 	Color			m_color;
 	float			m_size;
 	float			m_time;
-	float			m_life, m_lifeTime;
+	float			m_life, m_lifeTime, m_elapsedLifeTime;
 
 };

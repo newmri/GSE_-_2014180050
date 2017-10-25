@@ -9,6 +9,10 @@ public:
 public:
 	void Init();
 	void AddObject(shared_ptr<CObject> obj) { m_objects.emplace_back(obj); }
+
+public:
+	void CheckCollision();
+	void RemoveObject();
 	void Update(float time);
 
 public:

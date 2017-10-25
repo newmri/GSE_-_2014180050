@@ -10,6 +10,7 @@ void CObject::Init(const OBJTYPE newObjType, const Pos newPos,
 	m_color = newColor;
 	m_size = newSize;
 	m_life = LIFE;
+	m_lifeTime = LIFE_TIME;
 	switch (rand() % 8) {
 	case 0: m_vPos.x = SPEED; break;
 	case 1: m_vPos.x = -SPEED; break;
@@ -50,5 +51,7 @@ void CObject::Update(float time)
 {
 	m_time = time;
 	m_life -= 1;
+	m_elapsedLifeTime += m_time;
+
 	this->Move();
 }

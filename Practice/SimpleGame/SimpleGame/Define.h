@@ -12,7 +12,8 @@ using namespace std;
 using namespace chrono;
 
 const float SPEED = 80.0f;
-const float LIFE = 10.0f;
+const float LIFE = 500.0f;
+const float LIFE_TIME = 10.0f;
 
 const unsigned int MAX_OBJECTS_COUNT = 50;
 const unsigned int WINDOW_WIDTH = 500;
