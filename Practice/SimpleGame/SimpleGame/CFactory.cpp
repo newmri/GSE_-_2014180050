@@ -5,16 +5,17 @@
 
 CFactory* CFactory::m_instance = nullptr;
 
-shared_ptr<CObject> CFactory::CreateObj(const OBJTYPE objType, const Pos pos,
-										const float size, const Color color)
+shared_ptr<CObject> CFactory::CreateObj(ObjectInfo objinfo)
 {
 	shared_ptr<CObject> p = nullptr;
 
-	switch (objType) {
-	case OBJTYPE::OBJECT: p = make_unique<CObject>(); break;
+	switch (objinfo.objType) {
+	case OBJTYPE::OBJECT_BUILDING: p = make_unique<CObject>(); break;
+	case OBJTYPE::OBJECT_CHARACTER: p = make_unique<CObject>(); break;
+	case OBJTYPE::OBJECT_BULLET: p = make_unique<CObject>(); break;
 	default: break;
 	}
 
-	p->Init(objType, pos, size, color);
+	p->Init(objinfo);
 	return move(p);
 }

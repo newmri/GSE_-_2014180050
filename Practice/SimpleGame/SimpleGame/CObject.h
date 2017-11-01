@@ -2,8 +2,9 @@
 
 #include "Enum.h"
 
+#include <Windows.h>
 #include <memory>
-
+#include <vector>
 
 struct Pos
 {
@@ -40,6 +41,30 @@ struct Color
 	Color(float newR, float newG, float newB, float newA) : r(newR), g(newG), b(newB), a(newA) {};
 };
 
+struct ObjectInfo
+{
+	OBJTYPE objType;
+	Pos pos;
+	float size;
+	Color color;
+	float life, maxLife;
+
+	ObjectInfo()
+	{
+		size = 0.0f;
+		life = 0.0f;
+		maxLife = 0.0f;
+	}
+
+	ObjectInfo(OBJTYPE newObjType, Pos newPos, float newSize, Color newColor)
+	{
+		objType = newObjType;
+		pos = newPos;
+		size = newSize;
+		color = newColor;
+	}
+};
+
 class CObject
 {
 public:
@@ -50,8 +75,7 @@ public:
 	virtual void Init() = 0;
 	*/
 	// For test
-	void Init(const OBJTYPE newObjType, const Pos newPos,
-		const float newSize, const Color newColor);
+	void Init(const ObjectInfo objInfo);
 
 
 	void Update(float time);
@@ -60,30 +84,35 @@ public:
 
 public:
 	void CheckCollision(std::shared_ptr<CObject> other);
+	void GotDamage(const float damage) { m_objInfo.life -= damage; }
 
 public:
-	const OBJTYPE& GetObjType() { return m_objType; }
-	const Pos& GetPos() { return m_pos; }
-	const Color& GetColor() { return m_color; }
-	const float& GetSize() { return m_size; }
-	const float& GetLife() { return m_life; }
+	const OBJTYPE& GetObjType() { return m_objInfo.objType; }
+	const Pos& GetPos() { return m_objInfo.pos; }
+	const Color& GetColor() { return m_objInfo.color; }
+	const float& GetSize() { return m_objInfo.size; }
+	const float& GetLife() { return m_objInfo.life; }
 	const bool DoHavetoBeRemoved()
 	{
-		return (m_life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));
+		return (m_objInfo.life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));
 	}
 
 public:
-	void SetPos(const Pos newPos) { m_pos = newPos; }
-	void SetColor(const Color newColor) { m_color = newColor; }
-	void SetSize(const float newSize) { m_size = newSize; }
+	void SetPos(const Pos newPos) { m_objInfo.pos = newPos; }
+	void SetColor(const Color newColor) { m_objInfo.color = newColor; }
+	void SetSize(const float newSize) { m_objInfo.size = newSize; }
+	void SetDie() { m_objInfo.life = 0.0f; }
 
+public:
+	void SpawnBullet();
+	void RollBackColor() { m_objInfo.color = m_backUpColor; }
 protected:
-	OBJTYPE			m_objType;
-	Pos				m_pos;
+	ObjectInfo	    m_objInfo;
 	Pos				m_vPos;
-	Color			m_color;
-	float			m_size;
+	Color			m_backUpColor;
 	float			m_time;
-	float			m_life, m_lifeTime, m_elapsedLifeTime;
+	DWORD			m_bulletSpawnTime;
+	float			m_lifeTime, m_elapsedLifeTime;
+	std::vector<std::shared_ptr<CObject>> m_bullet;
 
 };

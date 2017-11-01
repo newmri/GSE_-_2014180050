@@ -51,10 +51,13 @@ void Idle(void)
 void MouseInput(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		Pos pos(x,y);
-		pos.x = x - 250.0f;
-		pos.y = 250.0f - y;
-		g_SceneMgr.AddObject(FACTORYMANAGER->CreateObj(OBJTYPE::OBJECT, pos, 4, Color(1.0f, 1.0f, 1.0f, 1.0f)));
+		if (g_SceneMgr.GetObjects().size() != MAX_NUM_OF_CHARACTER + 1) {
+			Pos pos(x, y);
+			pos.x = x - 250.0f;
+			pos.y = 250.0f - y;
+			ObjectInfo info(OBJTYPE::OBJECT_CHARACTER, pos, 30, Color(61.0f / RGB, 183.0f / RGB, 204.0f / RGB, 1.0f));
+			g_SceneMgr.AddObject(FACTORYMANAGER->CreateObj(info));
+		}
 		
 	}
 	RenderScene();

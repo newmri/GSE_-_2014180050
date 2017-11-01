@@ -6,6 +6,7 @@
 class CObject;
 struct Pos;
 struct Color;
+struct ObjectInfo;
 
 class CFactory
 {
@@ -18,8 +19,7 @@ public:
 		return m_instance;
 	}
 
-	std::shared_ptr<CObject> CreateObj(const OBJTYPE objType, const Pos pos,
-									   const float size, const Color color);
+	std::shared_ptr<CObject> CreateObj(ObjectInfo objinfo);
 
 private:
 	CFactory(void) {};

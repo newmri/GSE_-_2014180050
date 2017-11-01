@@ -3,16 +3,8 @@
 
 void CSceneMgr::Init()
 {
-	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i) {
-		Pos pos;
-
-		pos.x = static_cast<float>(rand() % (WINDOW_WIDTH / 2));
-		if (rand() % 2) pos.x = -pos.x;
-		pos.y = static_cast<float>(rand() % (WINDOW_HEIGHT / 2));
-		if (rand() % 2) pos.y = -pos.y;
-		m_objects.emplace_back(FACTORYMANAGER->CreateObj(OBJTYPE::OBJECT, pos, 4,
-			Color(1.0f, 1.0f, 1.0f, 1.0f)));
-	}
+	ObjectInfo info(OBJTYPE::OBJECT_BUILDING, Pos(), 100, Color(1.0f, 1.0f, 1.0f, 1.0f));
+	m_objects.emplace_back(FACTORYMANAGER->CreateObj(info));
 
 	m_time = GetTickCount();
 }
@@ -41,7 +33,7 @@ void CSceneMgr::Update(float time)
 	for (auto& d : m_objects) d->Update(time);
 	this->RemoveObject();
 	if (m_time + COLOR_ROLL_BACK_TIME < GetTickCount()) {
-		for (auto& d : m_objects) d->SetColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
+		for (auto& d : m_objects) d->RollBackColor();
 		m_time = GetTickCount();
 	}
 
