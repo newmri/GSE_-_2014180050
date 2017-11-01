@@ -92,6 +92,8 @@ public:
 	const Color& GetColor() { return m_objInfo.color; }
 	const float& GetSize() { return m_objInfo.size; }
 	const float& GetLife() { return m_objInfo.life; }
+	std::vector<std::shared_ptr<CObject>> GetBullet() { return m_bullet; }
+
 	const bool DoHavetoBeRemoved()
 	{
 		return (m_objInfo.life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));

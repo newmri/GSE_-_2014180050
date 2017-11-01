@@ -33,12 +33,7 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-	for (auto& d : g_SceneMgr.GetObjects()) {
-		g_Renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
-							      d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-			                      d->GetColor().a);
-	}
-
+	g_SceneMgr.Render();
 	g_SceneMgr.Update(static_cast<float>(elpsedTime.count()));
 	glutSwapBuffers();
 }
@@ -55,7 +50,7 @@ void MouseInput(int button, int state, int x, int y)
 			Pos pos(x, y);
 			pos.x = x - 250.0f;
 			pos.y = 250.0f - y;
-			ObjectInfo info(OBJTYPE::OBJECT_CHARACTER, pos, 30, Color(61.0f / RGB, 183.0f / RGB, 204.0f / RGB, 1.0f));
+			ObjectInfo info(OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(1.0f, 1.0f, 1.0f, 1.0f));
 			g_SceneMgr.AddObject(FACTORYMANAGER->CreateObj(info));
 		}
 		
@@ -94,12 +89,11 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
+	//g_Renderer = new Renderer(500, 500);
+	g_SceneMgr.InitRenderer();
 
-	if (!g_Renderer->IsInitialized())
-	{
-		std::cout << "Renderer could not be initialized.. \n";
-	}
+
+
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);

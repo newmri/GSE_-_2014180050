@@ -11,12 +11,19 @@
 using namespace std;
 using namespace chrono;
 
-static const float SPEED = 80.0f;
-static const float BULLET_SPEED = 300.0f;
-static const float LIFE = 500.0f;
-static const float CHARACTER_LIFE = 1.0f;
+static const float CHARACTER_LIFE = 10.0f;
+static const float CHARACTER_SPEED = 100.0f;
+static const float CHARACTER_SIZE = 10.0f;
+
+static const float BUILDING_LIFE = 500.0f;
+static const float BUILDING_SPEED = 0.0f;
+static const float BUILDING_SIZE = 50.0f;
+
 static const float BULLET_LIFE = 20.0f;
-static const float LIFE_TIME = 10.0f;
+static const float BULLET_SPEED = 300.0f;
+static const float BULLET_SIZE = 2.0f;
+
+static const float LIFE_TIME = 1000.0f;
 static const float RGB = 255.0f;
 
 static const unsigned int MAX_OBJECTS_COUNT = 50;

@@ -10,12 +10,12 @@ void CObject::Init(const ObjectInfo objInfo)
 	float speed{};
 	switch (m_objInfo.objType) {
 	case OBJTYPE::OBJECT_BUILDING:
-		m_objInfo.life = LIFE;
+		m_objInfo.life = BUILDING_LIFE;
 		m_bulletSpawnTime = GetTickCount();
-		speed = 0.0f;
+		speed = BUILDING_SPEED;
 		break;
-	case OBJTYPE::OBJECT_CHARACTER: m_objInfo.life = CHARACTER_LIFE;  speed = SPEED; break;
-	case OBJTYPE::OBJECT_BULLET: m_objInfo.life = BULLET_LIFE; speed = 10; break;
+	case OBJTYPE::OBJECT_CHARACTER: m_objInfo.life = CHARACTER_LIFE;  speed = CHARACTER_SPEED; break;
+	case OBJTYPE::OBJECT_BULLET: m_objInfo.life = BULLET_LIFE; speed = BULLET_SPEED; break;
 	default: break;
 
 	}
@@ -41,9 +41,16 @@ void CObject::CheckCollision(shared_ptr<CObject> other)
 			this->GotDamage(other->GetLife());
 			other->SetDie();
 		}
-		if (other->GetObjType() == OBJTYPE::OBJECT_BUILDING) {
+		switch(other->GetObjType()){
+		case OBJTYPE::OBJECT_BUILDING:
 			this->SetDie();
 			other->GotDamage(m_objInfo.life);
+			break;
+		case OBJTYPE::OBJECT_BULLET:
+			this->GotDamage(other->GetLife());
+			other->SetDie();
+			break;
+		default: break;
 		}
 		this->SetColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 		other->SetColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
@@ -67,7 +74,7 @@ void CObject::Move()
 
 void CObject::SpawnBullet()
 {
-	ObjectInfo objInfo(OBJTYPE::OBJECT_BULLET, m_objInfo.pos, 4, m_objInfo.color);
+	ObjectInfo objInfo(OBJTYPE::OBJECT_BULLET, m_objInfo.pos, BULLET_SIZE, Color(1.0f,0.0f,0.0f,1.0f));
 	m_bullet.emplace_back(FACTORYMANAGER->CreateObj(objInfo));
 }
 
@@ -81,6 +88,12 @@ void CObject::Update(float time)
 			m_bulletSpawnTime = GetTickCount();
 		}
 		for (auto& d : m_bullet) d->Update(time);
+		vector<shared_ptr<CObject>>::iterator itor = m_bullet.begin();
+		while (itor != m_bullet.end()) {
+			if ((*itor)->DoHavetoBeRemoved()) itor = m_bullet.erase(itor);
+			else ++itor;
+		}
+		
 		
 	}
 	else this->Move();
