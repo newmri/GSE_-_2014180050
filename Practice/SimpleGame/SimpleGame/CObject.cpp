@@ -83,7 +83,7 @@ void CObject::Update(float time)
 	m_time = time;
 	m_elapsedLifeTime += m_time;
 	if (m_objInfo.objType == OBJTYPE::OBJECT_BUILDING) {
-		if (m_bulletSpawnTime + 500 < GetTickCount()) {
+		if (m_bulletSpawnTime + BULLET_SPAWN_TIME < GetTickCount()) {
 			this->SpawnBullet();
 			m_bulletSpawnTime = GetTickCount();
 		}

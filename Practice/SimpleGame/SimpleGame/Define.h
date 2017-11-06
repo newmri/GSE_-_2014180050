@@ -31,5 +31,6 @@ static const unsigned int MAX_NUM_OF_CHARACTER = 10;
 static const unsigned int WINDOW_WIDTH = 500;
 static const unsigned int WINDOW_HEIGHT = 500;
 static const unsigned int COLOR_ROLL_BACK_TIME = 400;
+static const unsigned int BULLET_SPAWN_TIME = 500; // This will be 0.5 secdons.
 
 #define FACTORYMANAGER CFactory::GetInstance()

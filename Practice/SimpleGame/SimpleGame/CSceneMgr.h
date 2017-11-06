@@ -9,9 +9,15 @@ public:
 	CSceneMgr() { this->Init(); }
 public:
 	void Init();
-	void InitRenderer() {
-		m_renderer = make_unique<Renderer>(500, 500);
-		if (!m_renderer->IsInitialized()) std::cout << "Renderer could not be initialized.. \n";
+	void InitRenderer()
+	{
+		m_renderer = make_unique<Renderer>(WINDOW_WIDTH, WINDOW_HEIGHT);
+		if (!m_renderer->IsInitialized()) {
+			std::cout << "Renderer could not be initialized.. \n";
+			while (true);
+		}
+
+		cout << "Renderer is initialized!" << endl;
 	}
 	void AddObject(shared_ptr<CObject> obj) { m_objects.emplace_back(obj); }
 

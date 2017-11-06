@@ -8,6 +8,7 @@ void CSceneMgr::Init()
 
 	m_time = GetTickCount();
 
+	cout << "SceneManager is initialized!" << endl;
 	
 }
 
