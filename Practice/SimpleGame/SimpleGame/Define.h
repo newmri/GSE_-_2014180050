@@ -12,7 +12,7 @@ using namespace std;
 using namespace chrono;
 
 static const float CHARACTER_LIFE = 10.0f;
-static const float CHARACTER_SPEED = 100.0f;
+static const float CHARACTER_SPEED = 300.0f;
 static const float CHARACTER_SIZE = 10.0f;
 
 static const float BUILDING_LIFE = 500.0f;
@@ -23,6 +23,10 @@ static const float BULLET_LIFE = 20.0f;
 static const float BULLET_SPEED = 300.0f;
 static const float BULLET_SIZE = 2.0f;
 
+static const float ARROW_LIFE = 10.0f;
+static const float ARROW_SPEED = 100.0f;
+static const float ARROW_SIZE = 2.0f;
+
 static const float LIFE_TIME = 1000.0f;
 static const float RGB = 255.0f;
 
@@ -32,5 +36,7 @@ static const unsigned int WINDOW_WIDTH = 500;
 static const unsigned int WINDOW_HEIGHT = 500;
 static const unsigned int COLOR_ROLL_BACK_TIME = 400;
 static const unsigned int BULLET_SPAWN_TIME = 500; // This will be 0.5 secdons.
+static const unsigned int ARROW_SPAWN_TIME = 500; // This will be 0.5 secdons.
 
 #define FACTORYMANAGER CFactory::GetInstance()
+#define SCENEMANAGER CSceneMgr::GetInstance()

@@ -156,9 +156,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CFactory.h" />
+    <ClInclude Include="CImageMgr.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Enum.h" />
+    <ClInclude Include="LoadPng.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="CSceneMgr.h" />
@@ -169,6 +171,7 @@
     <ClCompile Include="CFactory.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CSceneMgr.cpp" />
+    <ClCompile Include="LoadPng.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SimpleGame.cpp" />
     <ClCompile Include="stdafx.cpp">

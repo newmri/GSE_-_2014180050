@@ -13,6 +13,7 @@ shared_ptr<CObject> CFactory::CreateObj(ObjectInfo objinfo)
 	case OBJTYPE::OBJECT_BUILDING: p = make_unique<CObject>(); break;
 	case OBJTYPE::OBJECT_CHARACTER: p = make_unique<CObject>(); break;
 	case OBJTYPE::OBJECT_BULLET: p = make_unique<CObject>(); break;
+	case OBJTYPE::OBJECT_ARROW: p = make_unique<CObject>(); break;
 	default: break;
 	}
 

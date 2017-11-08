@@ -19,7 +19,6 @@ but WITHOUT ANY WARRANTY.
 
 #pragma comment(lib, "winmm.lib")
 
-CSceneMgr g_SceneMgr;
 
 high_resolution_clock::time_point g_lastTime = high_resolution_clock::now();
 
@@ -32,8 +31,8 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Renderer Test
-	g_SceneMgr.Render();
-	g_SceneMgr.Update(static_cast<float>(elpsedTime.count()));
+	SCENEMANAGER->Render();
+	SCENEMANAGER->Update(static_cast<float>(elpsedTime.count()));
 	glutSwapBuffers();
 }
 
@@ -45,12 +44,12 @@ void Idle(void)
 void MouseInput(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		if (g_SceneMgr.GetObjects().size() != MAX_NUM_OF_CHARACTER + 1) {
+		if (SCENEMANAGER->GetObjects().size() != MAX_NUM_OF_CHARACTER + 1) {
 			Pos pos(static_cast<float>(x), static_cast<float>(y));
 			pos.x = static_cast<float>(x) - 250.0f;
 			pos.y = 250.0f - static_cast<float>(y);
-			ObjectInfo info(OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(1.0f, 1.0f, 1.0f, 1.0f));
-			g_SceneMgr.AddObject(FACTORYMANAGER->CreateObj(info));
+			ObjectInfo info(SCENEMANAGER->GetID(), OWNER::NONE, OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(1.0f, 1.0f, 1.0f, 1.0f));
+			SCENEMANAGER->AddObject(FACTORYMANAGER->CreateObj(info));
 		}
 		
 	}
@@ -88,7 +87,7 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_SceneMgr.InitRenderer();
+	SCENEMANAGER->InitRenderer();
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);

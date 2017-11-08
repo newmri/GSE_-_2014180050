@@ -44,6 +44,8 @@ struct Color
 struct ObjectInfo
 {
 	OBJTYPE objType;
+	unsigned int id;
+	unsigned int ownerId;
 	Pos pos;
 	float size;
 	Color color;
@@ -51,13 +53,18 @@ struct ObjectInfo
 
 	ObjectInfo()
 	{
+		id = 0;
+		ownerId = 0;
 		size = 0.0f;
 		life = 0.0f;
 		maxLife = 0.0f;
 	}
 
-	ObjectInfo(OBJTYPE newObjType, Pos newPos, float newSize, Color newColor)
+	ObjectInfo(unsigned int newId, unsigned int newOwnerId, OBJTYPE newObjType, 
+			   Pos newPos, float newSize, Color newColor)
 	{
+		id = newId;
+		ownerId = newOwnerId;
 		objType = newObjType;
 		pos = newPos;
 		size = newSize;
@@ -92,7 +99,8 @@ public:
 	const Color& GetColor() { return m_objInfo.color; }
 	const float& GetSize() { return m_objInfo.size; }
 	const float& GetLife() { return m_objInfo.life; }
-	std::vector<std::shared_ptr<CObject>> GetBullet() { return m_bullet; }
+	const unsigned int& GetID() { return m_objInfo.id; }
+	const unsigned int& GetOwnerID() { return m_objInfo.ownerId; }
 
 	const bool DoHavetoBeRemoved()
 	{
@@ -107,14 +115,16 @@ public:
 
 public:
 	void SpawnBullet();
+	void SpawnArrow();
 	void RollBackColor() { m_objInfo.color = m_backUpColor; }
+
 protected:
 	ObjectInfo	    m_objInfo;
 	Pos				m_vPos;
 	Color			m_backUpColor;
 	float			m_time;
 	DWORD			m_bulletSpawnTime;
+	DWORD			m_arrowSpawnTime;
 	float			m_lifeTime, m_elapsedLifeTime;
-	std::vector<std::shared_ptr<CObject>> m_bullet;
 
 };

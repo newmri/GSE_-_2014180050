@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "CObject.h"
+#include "Objects.h"
 #include "Define.h"
 
 void CObject::Init(const ObjectInfo objInfo)
@@ -16,6 +16,10 @@ void CObject::Init(const ObjectInfo objInfo)
 		break;
 	case OBJTYPE::OBJECT_CHARACTER: m_objInfo.life = CHARACTER_LIFE;  speed = CHARACTER_SPEED; break;
 	case OBJTYPE::OBJECT_BULLET: m_objInfo.life = BULLET_LIFE; speed = BULLET_SPEED; break;
+	case OBJTYPE::OBJECT_ARROW: 
+		m_objInfo.life = ARROW_LIFE; 
+		m_arrowSpawnTime = GetTickCount();
+		speed = ARROW_SPEED; break;
 	default: break;
 
 	}
@@ -50,6 +54,10 @@ void CObject::CheckCollision(shared_ptr<CObject> other)
 			this->GotDamage(other->GetLife());
 			other->SetDie();
 			break;
+		case OBJTYPE::OBJECT_ARROW:
+			this->GotDamage(other->GetLife());
+			other->SetDie();
+			break;
 		default: break;
 		}
 		this->SetColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
@@ -74,27 +82,34 @@ void CObject::Move()
 
 void CObject::SpawnBullet()
 {
-	ObjectInfo objInfo(OBJTYPE::OBJECT_BULLET, m_objInfo.pos, BULLET_SIZE, Color(1.0f,0.0f,0.0f,1.0f));
-	m_bullet.emplace_back(FACTORYMANAGER->CreateObj(objInfo));
+	if (m_bulletSpawnTime + BULLET_SPAWN_TIME < GetTickCount()) {
+		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, OBJTYPE::OBJECT_BULLET,
+				           m_objInfo.pos, BULLET_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f));
+		SCENEMANAGER->AddShootObjects(objInfo);
+		m_bulletSpawnTime = GetTickCount();
+	}
+
 }
+
+void CObject::SpawnArrow()
+{
+	if (m_arrowSpawnTime + ARROW_SPAWN_TIME < GetTickCount()) {
+		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, OBJTYPE::OBJECT_ARROW,
+						   m_objInfo.pos, ARROW_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f));
+		SCENEMANAGER->AddShootObjects(objInfo);
+		m_arrowSpawnTime = GetTickCount();
+	}
+
+}
+
 
 void CObject::Update(float time)
 {
 	m_time = time;
 	m_elapsedLifeTime += m_time;
-	if (m_objInfo.objType == OBJTYPE::OBJECT_BUILDING) {
-		if (m_bulletSpawnTime + BULLET_SPAWN_TIME < GetTickCount()) {
-			this->SpawnBullet();
-			m_bulletSpawnTime = GetTickCount();
-		}
-		for (auto& d : m_bullet) d->Update(time);
-		vector<shared_ptr<CObject>>::iterator itor = m_bullet.begin();
-		while (itor != m_bullet.end()) {
-			if ((*itor)->DoHavetoBeRemoved()) itor = m_bullet.erase(itor);
-			else ++itor;
-		}
-		
-		
-	}
-	else this->Move();
+
+	if (m_objInfo.objType == OBJTYPE::OBJECT_BUILDING) this->SpawnBullet();
+	else if (m_objInfo.objType == OBJTYPE::OBJECT_CHARACTER) this->SpawnArrow();
+
+	this->Move();
 }
