@@ -43,6 +43,7 @@ struct Color
 
 struct ObjectInfo
 {
+	TEAMTYPE teamType;
 	OBJTYPE objType;
 	unsigned int id;
 	unsigned int ownerId;
@@ -60,11 +61,12 @@ struct ObjectInfo
 		maxLife = 0.0f;
 	}
 
-	ObjectInfo(unsigned int newId, unsigned int newOwnerId, OBJTYPE newObjType, 
+	ObjectInfo(unsigned int newId, unsigned int newOwnerId, TEAMTYPE newTeamType, OBJTYPE newObjType,
 			   Pos newPos, float newSize, Color newColor)
 	{
 		id = newId;
 		ownerId = newOwnerId;
+		teamType = newTeamType;
 		objType = newObjType;
 		pos = newPos;
 		size = newSize;

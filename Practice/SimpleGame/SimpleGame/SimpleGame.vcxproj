@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CFactory.cpp" />
+    <ClCompile Include="CImageMgr.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CSceneMgr.cpp" />
     <ClCompile Include="LoadPng.cpp" />

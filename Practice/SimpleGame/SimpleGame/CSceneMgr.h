@@ -18,6 +18,8 @@ public:
 	}
 public:
 	void Init();
+	void InitNorthTeam();
+	void InitSouthTeam();
 	void InitRenderer()
 	{
 		m_renderer = make_unique<Renderer>(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -28,27 +30,35 @@ public:
 
 		cout << "Renderer is initialized!" << endl;
 	}
-	void AddObject(shared_ptr<CObject> obj) { m_objects.emplace_back(obj); }
+public:
+
+	void AddNorthObject(shared_ptr<CObject> obj) { m_objects[NORTH].emplace_back(obj); }
+	void AddSouthObject(shared_ptr<CObject> obj) { m_objects[SOUTH].emplace_back(obj); }
 
 public:
 	void CheckCollision();
 	void RemoveObject();
-	void Render();
+
+public:
 	void Update(float time);
 
 public:
-	const vector<shared_ptr<CObject>> GetObjects() { return m_objects; }
+	void Render();
+
+public:
+	const vector<shared_ptr<CObject>> GetNorthObjects() { return m_objects[NORTH]; }
 	const unsigned int GetID() { return m_id++; }
 
 public:
-	void AddShootObjects(const ObjectInfo& obj) { m_shootObjects.emplace_back(FACTORYMANAGER->CreateObj(obj)); };
+	void AddNorthShootObjects(const ObjectInfo& obj) { m_shootObjects[NORTH].emplace_back(FACTORYMANAGER->CreateObj(obj)); };
 
+public:
+	int LoadImages(char* filePath) { return m_renderer->CreatePngTexture(filePath); }
 private:
 	static CSceneMgr* m_instance;
-	vector<shared_ptr<CObject>> m_objects;
-	vector<shared_ptr<CObject>> m_shootObjects;
+	vector<shared_ptr<CObject>> m_objects[2];
+	vector<shared_ptr<CObject>> m_shootObjects[2];
 	DWORD m_time;
 	shared_ptr<Renderer> m_renderer;
 	unsigned int m_id;
-	int m_buildingId;
 };

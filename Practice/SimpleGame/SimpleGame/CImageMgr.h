@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atlstr.h>
 #include <map>
 
 class CImageMgr
@@ -8,18 +7,25 @@ class CImageMgr
 public:
 	static CImageMgr* GetInstance()
 	{
-		if (m_instance == nullptr)
+		if (m_instance == nullptr) {
 			m_instance = new CImageMgr;
-
+			m_instance->Init();
+		}
 		return m_instance;
 	}
 
+	void Init();
+
+public:
+	std::map<const char*, int>& GetImage() { return m_imageList; }
 
 private:
 	CImageMgr(void) {};
 	~CImageMgr(void) { delete m_instance; };
 
 	static CImageMgr* m_instance;
-	std::map<CString, int>& GetImage();
+
+private:
+	std::map<const char*, int> m_imageList;
 
 };

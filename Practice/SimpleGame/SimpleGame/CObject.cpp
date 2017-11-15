@@ -83,9 +83,9 @@ void CObject::Move()
 void CObject::SpawnBullet()
 {
 	if (m_bulletSpawnTime + BULLET_SPAWN_TIME < GetTickCount()) {
-		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, OBJTYPE::OBJECT_BULLET,
+		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, m_objInfo.teamType, OBJTYPE::OBJECT_BULLET,
 				           m_objInfo.pos, BULLET_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f));
-		SCENEMANAGER->AddShootObjects(objInfo);
+		SCENEMANAGER->AddNorthShootObjects(objInfo);
 		m_bulletSpawnTime = GetTickCount();
 	}
 
@@ -94,9 +94,9 @@ void CObject::SpawnBullet()
 void CObject::SpawnArrow()
 {
 	if (m_arrowSpawnTime + ARROW_SPAWN_TIME < GetTickCount()) {
-		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, OBJTYPE::OBJECT_ARROW,
+		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, m_objInfo.teamType, OBJTYPE::OBJECT_ARROW,
 						   m_objInfo.pos, ARROW_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f));
-		SCENEMANAGER->AddShootObjects(objInfo);
+		SCENEMANAGER->AddNorthShootObjects(objInfo);
 		m_arrowSpawnTime = GetTickCount();
 	}
 

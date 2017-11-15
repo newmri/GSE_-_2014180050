@@ -7,23 +7,70 @@ CSceneMgr* CSceneMgr::m_instance = nullptr;
 void CSceneMgr::Init()
 {
 	m_id = 0;
-	ObjectInfo info(this->GetID(), OWNER::NONE, OBJTYPE::OBJECT_BUILDING, Pos(), BUILDING_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f));
-	m_objects.emplace_back(FACTORYMANAGER->CreateObj(info));
-
+	this->InitNorthTeam();
+	this->InitSouthTeam();
 	m_time = GetTickCount();
 
 	cout << "SceneManager is initialized!" << endl;
 	
-	m_buildingId = m_renderer->CreatePngTexture("Resources\\Building.png");
+}
+
+void CSceneMgr::InitNorthTeam()
+{
+	
+	// Left Building
+	m_objects[NORTH].emplace_back(
+		FACTORYMANAGER->CreateObj(
+			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
+				Pos(-BUILDING_LEFT_XPOS, NORTH_BUILDING_YPOS),
+				BUILDING_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f))));
+
+	// Mid Building
+	m_objects[NORTH].emplace_back(
+		FACTORYMANAGER->CreateObj(
+			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
+				Pos(0.0f, NORTH_BUILDING_YPOS + 40.0f),
+				BUILDING_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f))));
+
+	// Right Building
+	m_objects[NORTH].emplace_back(
+		FACTORYMANAGER->CreateObj(
+			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
+				Pos(BUILDING_LEFT_XPOS, NORTH_BUILDING_YPOS),
+				BUILDING_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f))));
+}
+void CSceneMgr::InitSouthTeam()
+{
+
+	// Left Building
+	m_objects[SOUTH].emplace_back(
+		FACTORYMANAGER->CreateObj(
+			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
+				Pos(-BUILDING_LEFT_XPOS, -NORTH_BUILDING_YPOS),
+				BUILDING_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f))));
+
+	// Mid Building
+	m_objects[SOUTH].emplace_back(
+		FACTORYMANAGER->CreateObj(
+			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
+				Pos(0.0f, -(NORTH_BUILDING_YPOS + 40.0f)),
+				BUILDING_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f))));
+
+	// Right Building
+	m_objects[SOUTH].emplace_back(
+		FACTORYMANAGER->CreateObj(
+			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
+				Pos(BUILDING_LEFT_XPOS, -NORTH_BUILDING_YPOS),
+				BUILDING_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f))));
 }
 
 void CSceneMgr::CheckCollision()
 {
-	for (auto& d : m_objects) {
-		for (int i = 0; i < m_objects.size(); ++i) {
-			if (d != m_objects[i]) d->CheckCollision(m_objects[i]);
+	for (auto& d : m_objects[NORTH]) {
+		for (int i = 0; i < m_objects[NORTH].size(); ++i) {
+			if (d != m_objects[NORTH][i]) d->CheckCollision(m_objects[NORTH][i]);
 			if (d->GetObjType() == OBJECT_CHARACTER || d->GetObjType() == OBJECT_BUILDING) {
-				for (auto& sd : m_shootObjects) {
+				for (auto& sd : m_shootObjects[NORTH]) {
 					if(sd->GetOwnerID() != d->GetID()) d->CheckCollision(sd);
 				}
 
@@ -36,17 +83,17 @@ void CSceneMgr::CheckCollision()
 void CSceneMgr::RemoveObject()
 {
 	{
-		vector<shared_ptr<CObject>>::iterator itor = m_objects.begin();
-		while (itor != m_objects.end()) {
-			if ((*itor)->DoHavetoBeRemoved()) itor = m_objects.erase(itor);
+		vector<shared_ptr<CObject>>::iterator itor = m_objects[NORTH].begin();
+		while (itor != m_objects[NORTH].end()) {
+			if ((*itor)->DoHavetoBeRemoved()) itor = m_objects[NORTH].erase(itor);
 			else ++itor;
 		}
 	}
 
 	{
-		vector<shared_ptr<CObject>>::iterator itor = m_shootObjects.begin();
-		while (itor != m_shootObjects.end()) {
-			if ((*itor)->DoHavetoBeRemoved()) itor = m_shootObjects.erase(itor);
+		vector<shared_ptr<CObject>>::iterator itor = m_shootObjects[NORTH].begin();
+		while (itor != m_shootObjects[NORTH].end()) {
+			if ((*itor)->DoHavetoBeRemoved()) itor = m_shootObjects[NORTH].erase(itor);
 			else ++itor;
 		}
 	}
@@ -54,28 +101,41 @@ void CSceneMgr::RemoveObject()
 
 void CSceneMgr::Render()
 {
-	for (auto& d : m_objects) {
-		m_renderer->DrawTexturedRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
-			d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-			d->GetColor().a, m_buildingId);
-	}
+	for (int i = 0; i < 2; ++i) {
+		for (auto& d : m_objects[i]) {
+			if (d->GetObjType() == OBJECT_BUILDING)
+				m_renderer->DrawTexturedRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
+					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
+					d->GetColor().a, IMAGEMANAGER->GetImage()["NorthBuilding"]);
 
-	for (auto& d : m_shootObjects) {
-		m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
-			d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-			d->GetColor().a);
+			else
+				m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
+					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
+					d->GetColor().a);
+		}
+
+		for (auto& d : m_shootObjects[i]) {
+			m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
+				d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
+				d->GetColor().a);
+		}
 	}
 }
+
 void CSceneMgr::Update(float time)
 {
 
 	this->CheckCollision();
-	for (auto& d : m_objects) d->Update(time);
-	for (auto& d : m_shootObjects) d->Update(time);
-	this->RemoveObject();
-	if (m_time + COLOR_ROLL_BACK_TIME < GetTickCount()) {
-		for (auto& d : m_objects) d->RollBackColor();
-		m_time = GetTickCount();
+	for (int i = 0; i < 2; ++i) {
+		for (auto& d : m_objects[i]) d->Update(time);
+		for (auto& d : m_shootObjects[i]) d->Update(time);
+
+		if (m_time + COLOR_ROLL_BACK_TIME < GetTickCount()) {
+			for (auto& d : m_objects[i]) d->RollBackColor();
+			m_time = GetTickCount();
+		}
 	}
+
+	this->RemoveObject();
 
 }

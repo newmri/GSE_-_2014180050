@@ -44,12 +44,12 @@ void Idle(void)
 void MouseInput(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		if (SCENEMANAGER->GetObjects().size() != MAX_NUM_OF_CHARACTER + 1) {
+		if (SCENEMANAGER->GetNorthObjects().size() != MAX_NUM_OF_CHARACTER + 1) {
 			Pos pos(static_cast<float>(x), static_cast<float>(y));
-			pos.x = static_cast<float>(x) - 250.0f;
-			pos.y = 250.0f - static_cast<float>(y);
-			ObjectInfo info(SCENEMANAGER->GetID(), OWNER::NONE, OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(1.0f, 1.0f, 1.0f, 1.0f));
-			SCENEMANAGER->AddObject(FACTORYMANAGER->CreateObj(info));
+			pos.x = static_cast<float>(x) - (WINDOW_WIDTH / 2.0f);
+			pos.y = (WINDOW_HEIGHT / 2.0f) - static_cast<float>(y);
+			//ObjectInfo info(SCENEMANAGER->GetID(), OWNER::NONE,TEAM OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(1.0f, 1.0f, 1.0f, 1.0f));
+			//SCENEMANAGER->AddNorthObject(FACTORYMANAGER->CreateObj(info));
 		}
 		
 	}
