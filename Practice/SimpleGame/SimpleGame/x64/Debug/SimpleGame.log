@@ -1,10 +1,2 @@
-﻿  CFactory.cpp
-  Generating Code...
-  Compiling...
-  SimpleGame.cpp
-  CSceneMgr.cpp
-  CObject.cpp
-  CImageMgr.cpp
-  Generating Code...
-  SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
+﻿  SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
   SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.pdb (Partial PDB)
