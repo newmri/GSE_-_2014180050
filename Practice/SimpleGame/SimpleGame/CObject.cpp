@@ -60,8 +60,6 @@ void CObject::CheckCollision(shared_ptr<CObject> other)
 			break;
 		default: break;
 		}
-		this->SetColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
-		other->SetColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 
 	}
 
@@ -69,14 +67,18 @@ void CObject::CheckCollision(shared_ptr<CObject> other)
 
 void CObject::Move()
 {
-	if ((m_objInfo.pos.x + (m_objInfo.size / 2) > WINDOW_WIDTH / 2) || // End of Right
-		((m_objInfo.pos.x - (m_objInfo.size / 2) <  WINDOW_WIDTH / 2.0 * -1.0f))) // End of Left
+	if ((m_objInfo.pos.x + (m_objInfo.size / 2.0f) >= WINDOW_WIDTH / 2.0f) || // End of Right
+		((m_objInfo.pos.x - (m_objInfo.size / 2) <= WINDOW_WIDTH / 2.0 * -1.0f))) { // End of Left
+		if (m_objInfo.pos.x > 0.0f) m_objInfo.pos.x = (WINDOW_WIDTH / 2.0f) - (m_objInfo.size / 2.0f);
+		else  m_objInfo.pos.x = -(WINDOW_WIDTH / 2.0f) + (m_objInfo.size / 2.0f);
 		m_vPos.x = -m_vPos.x;
-
-	if ((m_objInfo.pos.y + (m_objInfo.size / 2) > WINDOW_HEIGHT / 2) || // End of Top
-		((m_objInfo.pos.y - (m_objInfo.size / 2) <  WINDOW_HEIGHT / 2.0 * -1.0f))) // End of Bottom
+	}
+	if ((m_objInfo.pos.y + (m_objInfo.size / 2.0f) >= WINDOW_HEIGHT / 2.0f) || // End of Top
+		((m_objInfo.pos.y - (m_objInfo.size / 2.0f) <= WINDOW_HEIGHT / 2.0 * -1.0f))) { // End of Bottom
+		if (m_objInfo.pos.y > 0.0f) m_objInfo.pos.y = (WINDOW_HEIGHT / 2.0f) - (m_objInfo.size / 2.0f);
+		else  m_objInfo.pos.y = -(WINDOW_HEIGHT / 2.0f) + (m_objInfo.size / 2.0f);
 		m_vPos.y = -m_vPos.y;
-	
+	}
 	m_objInfo.pos = m_objInfo.pos + m_vPos * (m_time / 1000.0f);
 }
 
@@ -84,8 +86,11 @@ void CObject::SpawnBullet()
 {
 	if (m_bulletSpawnTime + BULLET_SPAWN_TIME < GetTickCount()) {
 		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, m_objInfo.teamType, OBJTYPE::OBJECT_BULLET,
-				           m_objInfo.pos, BULLET_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f));
-		SCENEMANAGER->AddNorthShootObjects(objInfo);
+				           m_objInfo.pos, BULLET_SIZE, m_objInfo.color);
+		if (m_objInfo.teamType == TEAMTYPE::NORTH) SCENEMANAGER->AddNorthShootObjects(objInfo);
+		else SCENEMANAGER->AddSouthShootObjects(objInfo);
+		
+
 		m_bulletSpawnTime = GetTickCount();
 	}
 
@@ -93,10 +98,15 @@ void CObject::SpawnBullet()
 
 void CObject::SpawnArrow()
 {
+	Color color;
+	if (m_objInfo.teamType == NORTH) color = {0.5f, 0.2f, 0.7f, 1.0f };
+	else color = { 1.0f, 1.0f, 0.0f, 1.0f };
 	if (m_arrowSpawnTime + ARROW_SPAWN_TIME < GetTickCount()) {
 		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, m_objInfo.teamType, OBJTYPE::OBJECT_ARROW,
-						   m_objInfo.pos, ARROW_SIZE, Color(1.0f, 1.0f, 0.0f, 1.0f));
-		SCENEMANAGER->AddNorthShootObjects(objInfo);
+						   m_objInfo.pos, ARROW_SIZE, color);
+
+		if (m_objInfo.teamType == TEAMTYPE::NORTH) SCENEMANAGER->AddNorthShootObjects(objInfo);
+		else  SCENEMANAGER->AddSouthShootObjects(objInfo);
 		m_arrowSpawnTime = GetTickCount();
 	}
 

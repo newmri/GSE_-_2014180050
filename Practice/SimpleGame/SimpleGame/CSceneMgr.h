@@ -51,6 +51,19 @@ public:
 
 public:
 	void AddNorthShootObjects(const ObjectInfo& obj) { m_shootObjects[NORTH].emplace_back(FACTORYMANAGER->CreateObj(obj)); };
+	void AddSouthShootObjects(const ObjectInfo& obj) { m_shootObjects[SOUTH].emplace_back(FACTORYMANAGER->CreateObj(obj)); };
+
+public:
+	void CreateNorthCharacter();
+	bool CanCreateSouthCharacter()
+	{
+		if (m_characterTime[SOUTH] + SOUTH_CHARACTER_TIME < GetTickCount()) {
+			m_characterTime[SOUTH] = GetTickCount();
+			return true;
+		}
+
+		return false;
+	}
 
 public:
 	int LoadImages(char* filePath) { return m_renderer->CreatePngTexture(filePath); }
@@ -59,6 +72,7 @@ private:
 	vector<shared_ptr<CObject>> m_objects[2];
 	vector<shared_ptr<CObject>> m_shootObjects[2];
 	DWORD m_time;
+	DWORD m_characterTime[2];
 	shared_ptr<Renderer> m_renderer;
 	unsigned int m_id;
 };

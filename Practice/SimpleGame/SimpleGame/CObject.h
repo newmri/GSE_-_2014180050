@@ -103,7 +103,7 @@ public:
 	const float& GetLife() { return m_objInfo.life; }
 	const unsigned int& GetID() { return m_objInfo.id; }
 	const unsigned int& GetOwnerID() { return m_objInfo.ownerId; }
-
+	const TEAMTYPE& GetTeamType() { return m_objInfo.teamType; }
 	const bool DoHavetoBeRemoved()
 	{
 		return (m_objInfo.life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));

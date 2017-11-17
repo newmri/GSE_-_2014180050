@@ -35,11 +35,14 @@ static const unsigned int MAX_NUM_OF_CHARACTER = 10;
 static const unsigned int WINDOW_WIDTH = 500;
 static const unsigned int WINDOW_HEIGHT = 700;
 static const unsigned int COLOR_ROLL_BACK_TIME = 400;
-static const unsigned int BULLET_SPAWN_TIME = 1000; // This will be 1 sec
-static const unsigned int ARROW_SPAWN_TIME = 1000; // This will be 1 sec
+static const unsigned int BULLET_SPAWN_TIME = 5000; 
+static const unsigned int ARROW_SPAWN_TIME = 3000;
+static const unsigned int NORTH_CHARACTER_TIME = 5000;
+static const unsigned int SOUTH_CHARACTER_TIME = 7000;
 
 static const float BUILDING_LEFT_XPOS = (WINDOW_WIDTH / 4.0f);
 static const float NORTH_BUILDING_YPOS = (WINDOW_HEIGHT / 3.0f);
+
 
 #define FACTORYMANAGER CFactory::GetInstance()
 #define SCENEMANAGER CSceneMgr::GetInstance()
