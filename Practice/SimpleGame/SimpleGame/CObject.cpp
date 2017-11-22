@@ -7,19 +7,31 @@ void CObject::Init(const ObjectInfo objInfo)
 	m_objInfo = objInfo;
 	m_backUpColor = objInfo.color;
 	m_lifeTime = LIFE_TIME;
+
 	float speed{};
 	switch (m_objInfo.objType) {
 	case OBJTYPE::OBJECT_BUILDING:
 		m_objInfo.life = BUILDING_LIFE;
+		m_objInfo.maxLife = m_objInfo.life;
 		m_bulletSpawnTime = GetTickCount();
 		speed = BUILDING_SPEED;
 		break;
-	case OBJTYPE::OBJECT_CHARACTER: m_objInfo.life = CHARACTER_LIFE;  speed = CHARACTER_SPEED; break;
-	case OBJTYPE::OBJECT_BULLET: m_objInfo.life = BULLET_LIFE; speed = BULLET_SPEED; break;
+	case OBJTYPE::OBJECT_CHARACTER: 
+		m_objInfo.life = CHARACTER_LIFE;
+		m_objInfo.maxLife = m_objInfo.life;
+		speed = CHARACTER_SPEED;
+		break;
+	case OBJTYPE::OBJECT_BULLET: 
+		m_objInfo.life = BULLET_LIFE; 
+		m_objInfo.maxLife = m_objInfo.life;
+		speed = BULLET_SPEED; 
+		break;
 	case OBJTYPE::OBJECT_ARROW: 
 		m_objInfo.life = ARROW_LIFE; 
+		m_objInfo.maxLife = m_objInfo.life;
 		m_arrowSpawnTime = GetTickCount();
-		speed = ARROW_SPEED; break;
+		speed = ARROW_SPEED; 
+		break;
 	default: break;
 
 	}
@@ -41,14 +53,16 @@ void CObject::CheckCollision(shared_ptr<CObject> other)
 		((m_objInfo.pos.x - (m_objInfo.size / 2.0f)) < (other->GetPos().x + (other->GetSize() / 2.0f))) && // Left
 		((m_objInfo.pos.y + (m_objInfo.size / 2.0f)) > (other->GetPos().y - (other->GetSize() / 2.0f))) && // Top
 		((m_objInfo.pos.y - (m_objInfo.size / 2.0f)) < (other->GetPos().y + (other->GetSize() / 2.0f)))) { // Bottom
-		if (m_objInfo.objType == OBJTYPE::OBJECT_BUILDING) {
+
+		if (m_objInfo.objType == OBJTYPE::OBJECT_BUILDING){
 			this->GotDamage(other->GetLife());
 			other->SetDie();
+			return;
 		}
 		switch(other->GetObjType()){
 		case OBJTYPE::OBJECT_BUILDING:
-			this->SetDie();
 			other->GotDamage(m_objInfo.life);
+			this->SetDie();
 			break;
 		case OBJTYPE::OBJECT_BULLET:
 			this->GotDamage(other->GetLife());
@@ -86,7 +100,7 @@ void CObject::SpawnBullet()
 {
 	if (m_bulletSpawnTime + BULLET_SPAWN_TIME < GetTickCount()) {
 		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, m_objInfo.teamType, OBJTYPE::OBJECT_BULLET,
-				           m_objInfo.pos, BULLET_SIZE, m_objInfo.color);
+				           m_objInfo.pos, BULLET_SIZE, m_objInfo.color, LEVEL_UNDERGROUND);
 		if (m_objInfo.teamType == TEAMTYPE::NORTH) SCENEMANAGER->AddNorthShootObjects(objInfo);
 		else SCENEMANAGER->AddSouthShootObjects(objInfo);
 		
@@ -103,7 +117,7 @@ void CObject::SpawnArrow()
 	else color = { 1.0f, 1.0f, 0.0f, 1.0f };
 	if (m_arrowSpawnTime + ARROW_SPAWN_TIME < GetTickCount()) {
 		ObjectInfo objInfo(SCENEMANAGER->GetID(), m_objInfo.id, m_objInfo.teamType, OBJTYPE::OBJECT_ARROW,
-						   m_objInfo.pos, ARROW_SIZE, color);
+						   m_objInfo.pos, ARROW_SIZE, color, LEVEL_UNDERGROUND);
 
 		if (m_objInfo.teamType == TEAMTYPE::NORTH) SCENEMANAGER->AddNorthShootObjects(objInfo);
 		else  SCENEMANAGER->AddSouthShootObjects(objInfo);
@@ -119,7 +133,7 @@ void CObject::Update(float time)
 	m_elapsedLifeTime += m_time;
 
 	if (m_objInfo.objType == OBJTYPE::OBJECT_BUILDING) this->SpawnBullet();
-	else if (m_objInfo.objType == OBJTYPE::OBJECT_CHARACTER) this->SpawnArrow();
+	if (m_objInfo.objType == OBJTYPE::OBJECT_CHARACTER) this->SpawnArrow();
 
 	this->Move();
 }

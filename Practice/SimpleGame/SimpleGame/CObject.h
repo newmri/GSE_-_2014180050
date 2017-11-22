@@ -51,6 +51,7 @@ struct ObjectInfo
 	float size;
 	Color color;
 	float life, maxLife;
+	float renderLevel;
 
 	ObjectInfo()
 	{
@@ -59,10 +60,11 @@ struct ObjectInfo
 		size = 0.0f;
 		life = 0.0f;
 		maxLife = 0.0f;
+		renderLevel = 0.0f;
 	}
 
 	ObjectInfo(unsigned int newId, unsigned int newOwnerId, TEAMTYPE newTeamType, OBJTYPE newObjType,
-			   Pos newPos, float newSize, Color newColor)
+			   Pos newPos, float newSize, Color newColor, float newRenderLevel)
 	{
 		id = newId;
 		ownerId = newOwnerId;
@@ -71,6 +73,7 @@ struct ObjectInfo
 		pos = newPos;
 		size = newSize;
 		color = newColor;
+		renderLevel = newRenderLevel;
 	}
 };
 
@@ -104,6 +107,8 @@ public:
 	const unsigned int& GetID() { return m_objInfo.id; }
 	const unsigned int& GetOwnerID() { return m_objInfo.ownerId; }
 	const TEAMTYPE& GetTeamType() { return m_objInfo.teamType; }
+	const float& GetRenderLevel() { return m_objInfo.renderLevel; }
+	const float GetLifePercent() { return m_objInfo.life / m_objInfo.maxLife; }
 	const bool DoHavetoBeRemoved()
 	{
 		return (m_objInfo.life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));

@@ -49,7 +49,7 @@ void MouseInput(int button, int state, int x, int y)
 			pos.x = static_cast<float>(x) - (WINDOW_WIDTH / 2.0f);
 			pos.y = (WINDOW_HEIGHT / 2.0f) - static_cast<float>(y);
 			if (pos.y > 0.0f || !SCENEMANAGER->CanCreateSouthCharacter()) return;
-			ObjectInfo info(SCENEMANAGER->GetID(), OWNER::NONE, SOUTH, OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f));
+			ObjectInfo info(SCENEMANAGER->GetID(), OWNER::NONE, SOUTH, OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f), LEVEL_GROUND);
 			SCENEMANAGER->AddSouthObject(FACTORYMANAGER->CreateObj(info));
 		}
 		

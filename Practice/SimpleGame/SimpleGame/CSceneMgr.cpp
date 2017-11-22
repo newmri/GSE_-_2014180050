@@ -24,21 +24,21 @@ void CSceneMgr::InitNorthTeam()
 		FACTORYMANAGER->CreateObj(
 			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
 				Pos(-BUILDING_LEFT_XPOS, NORTH_BUILDING_YPOS),
-				BUILDING_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f))));
+				BUILDING_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f), LEVEL_SKY)));
 
 	// Mid Building
 	m_objects[NORTH].emplace_back(
 		FACTORYMANAGER->CreateObj(
 			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
 				Pos(0.0f, NORTH_BUILDING_YPOS + 40.0f),
-				BUILDING_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f))));
+				BUILDING_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f), LEVEL_SKY)));
 
 	// Right Building
 	m_objects[NORTH].emplace_back(
 		FACTORYMANAGER->CreateObj(
 			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::NORTH, OBJTYPE::OBJECT_BUILDING,
 				Pos(BUILDING_LEFT_XPOS, NORTH_BUILDING_YPOS),
-				BUILDING_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f))));
+				BUILDING_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f), LEVEL_SKY)));
 }
 void CSceneMgr::InitSouthTeam()
 {
@@ -48,21 +48,21 @@ void CSceneMgr::InitSouthTeam()
 		FACTORYMANAGER->CreateObj(
 			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::SOUTH, OBJTYPE::OBJECT_BUILDING,
 				Pos(-BUILDING_LEFT_XPOS, -NORTH_BUILDING_YPOS),
-				BUILDING_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f))));
+				BUILDING_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f), LEVEL_SKY)));
 
 	// Mid Building
 	m_objects[SOUTH].emplace_back(
 		FACTORYMANAGER->CreateObj(
 			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::SOUTH, OBJTYPE::OBJECT_BUILDING,
 				Pos(0.0f, -(NORTH_BUILDING_YPOS + 40.0f)),
-				BUILDING_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f))));
+				BUILDING_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f), LEVEL_SKY)));
 
 	// Right Building
 	m_objects[SOUTH].emplace_back(
 		FACTORYMANAGER->CreateObj(
 			ObjectInfo(this->GetID(), OWNER::NONE, TEAMTYPE::SOUTH, OBJTYPE::OBJECT_BUILDING,
 				Pos(BUILDING_LEFT_XPOS, -NORTH_BUILDING_YPOS),
-				BUILDING_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f))));
+				BUILDING_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f), LEVEL_SKY)));
 }
 
 void CSceneMgr::CheckCollision()
@@ -113,7 +113,7 @@ void CSceneMgr::CreateNorthCharacter()
 		if (rand() % 2 == 1) pos.x = -pos.x;
 
 		ObjectInfo info(SCENEMANAGER->GetID(), OWNER::NONE,TEAMTYPE::NORTH, OBJTYPE::OBJECT_CHARACTER,
-			pos, CHARACTER_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f));
+			pos, CHARACTER_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f), LEVEL_GROUND);
 		SCENEMANAGER->AddNorthObject(FACTORYMANAGER->CreateObj(info));
 		m_characterTime[NORTH] = GetTickCount();
 	}
@@ -126,21 +126,28 @@ void CSceneMgr::Render()
 		if (i == 0) name = "NorthBuilding";
 		else name = "SouthBuilding";
 		for (auto& d : m_objects[i]) {
-			if (d->GetObjType() == OBJECT_BUILDING)
+			if (d->GetObjType() == OBJECT_BUILDING) {
 				m_renderer->DrawTexturedRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-					d->GetColor().a, IMAGEMANAGER->GetImage()[name]);
+					d->GetColor().a, IMAGEMANAGER->GetImage()[name], d->GetRenderLevel());
 
-			else
+				m_renderer->DrawSolidRectGauge(d->GetPos().x, d->GetPos().y + d->GetSize() / 1.5f, d->GetPos().z,
+					d->GetSize(), d->GetSize() / 10.0f, d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a, d->GetLifePercent(), LEVEL_GOD);
+			}
+
+			else {
 				m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-					d->GetColor().a);
+					d->GetColor().a, d->GetRenderLevel());
+				m_renderer->DrawSolidRectGauge(d->GetPos().x, d->GetPos().y + d->GetSize(), d->GetPos().z,
+					d->GetSize(), d->GetSize() / 5.0f, d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a, d->GetLifePercent(), LEVEL_GOD);
+			}
 		}
 
 		for (auto& d : m_shootObjects[i]) {
 			m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 				d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-				d->GetColor().a);
+				d->GetColor().a, d->GetRenderLevel());
 		}
 	}
 }
