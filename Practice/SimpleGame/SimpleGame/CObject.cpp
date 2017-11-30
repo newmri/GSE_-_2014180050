@@ -36,14 +36,14 @@ void CObject::Init(const ObjectInfo objInfo)
 
 	}
 	switch (rand() % 8) {
-	case 0: m_vPos.x = speed; break;
-	case 1: m_vPos.x = -speed; break;
-	case 2: m_vPos.y = speed; break;
-	case 3: m_vPos.y = -speed; break;
-	case 4: m_vPos.x = speed; m_vPos.y = speed; break;
-	case 5: m_vPos.x = speed; m_vPos.y = -speed; break;
-	case 6: m_vPos.x = -speed; m_vPos.y = speed; break;
-	case 7: m_vPos.x = -speed; m_vPos.y = -speed; break;
+	case 0: m_vPos.x = speed; m_dir.x = 1.0f; m_dir.y = 0.0f; m_col = R; m_row = 0; break;
+	case 1: m_vPos.x = -speed; m_dir.x = -1.0f; m_dir.y = 0.0f; m_col = L; m_row = 0; break;
+	case 2: m_vPos.y = speed; m_dir.y = 1.0f;  m_dir.x = 0.0f; m_col = U; m_row = 0; break;
+	case 3: m_vPos.y = -speed; m_dir.y = -1.0f; m_dir.x = 0.0f; m_col = D; m_row = 0; break;
+	case 4: m_vPos.x = speed; m_vPos.y = speed; m_dir.x = 1.0f; m_dir.y = 1.0f;  m_col = RU; m_row = 0; break;
+	case 5: m_vPos.x = speed; m_vPos.y = -speed; m_dir.x = 1.0f; m_dir.y = -1.0f; m_col = RD; m_row = 0; break;
+	case 6: m_vPos.x = -speed; m_vPos.y = speed; m_dir.x = -1.0f; m_dir.y = 1.0f; m_col = LU; m_row = 0; break;
+	case 7: m_vPos.x = -speed; m_vPos.y = -speed; m_dir.x = -1.0f; m_dir.y = -1.0f; m_col = LD; m_row = 0; break;
 	}
 }
 
@@ -58,6 +58,12 @@ void CObject::CheckCollision(shared_ptr<CObject> other)
 			this->GotDamage(other->GetLife());
 			other->SetDie();
 			return;
+		}
+
+		if (m_objInfo.objType == OBJTYPE::OBJECT_CHARACTER &&
+			other->GetObjType() == OBJTYPE::OBJECT_CHARACTER) {
+			this->SetDie();
+			other->SetDie();
 		}
 		switch(other->GetObjType()){
 		case OBJTYPE::OBJECT_BUILDING:
@@ -94,6 +100,31 @@ void CObject::Move()
 		m_vPos.y = -m_vPos.y;
 	}
 	m_objInfo.pos = m_objInfo.pos + m_vPos * (m_time / 1000.0f);
+
+
+	int n = m_vPos.x + m_vPos.y;
+	if (m_objInfo.objType == OBJTYPE::OBJECT_CHARACTER) {
+		switch (n) {
+		case 0: 
+			if (m_vPos.x > 0) { m_col = RD; m_dir.x = 1.0f, m_dir.y = -1.0f; break; } m_col = LU; m_dir.x = -1.0f, m_dir.y = 1.0f; break;
+		case 300: if (m_vPos.x > 0) { m_col = R; m_dir.x = 1.0f; m_dir.y = 0.0f; break; }  m_col = U; m_dir.x = 0.0f; m_dir.y = 1.0f; break;
+		case -300: if (m_vPos.x < 0) { m_col = L; m_dir.x = -1.0f; m_dir.y = 0.0f; break; } m_col = D; m_dir.x = 0.0f; m_dir.y = -1.0f; break;
+		case 600: m_col = RU; m_dir.x = 1.0f; m_dir.y = 1.0f; break;
+		case -600: m_col = LD; m_dir.x = -1.0f; m_dir.y = -1.0f; break;
+		}
+		m_row = (m_row + 1) % 8;
+	}
+
+	if (m_objInfo.objType == OBJTYPE::OBJECT_BULLET) {
+		switch (n) {
+		case 0:
+			if (m_vPos.x > 0) { m_dir.x = -1.0f, m_dir.y = 1.0f; break; } m_dir.x = 1.0f, m_dir.y = -1.0f; break;
+		case 600: if (m_vPos.x > 0) {  m_dir.x = -1.0f; m_dir.y = 0.0f; break; } m_dir.x = 0.0f; m_dir.y = -1.0f; break;
+		case -600: if (m_vPos.x < 0) {  m_dir.x = 1.0f; m_dir.y = 0.0f; break; }  m_dir.x = 0.0f; m_dir.y = 1.0f; break;
+		case 1200: m_dir.x = -1.0f; m_dir.y = -1.0f; break;
+		case -1200:  m_dir.x = 1.0f; m_dir.y = 1.0f; break;
+		}
+	}
 }
 
 void CObject::SpawnBullet()

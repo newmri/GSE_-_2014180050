@@ -73,7 +73,6 @@ void CSceneMgr::CheckCollision()
 
 				for (int j = 0; j < m_objects[(k + 1) % TEAM_END].size(); ++j) d->CheckCollision(m_objects[(k + 1) % TEAM_END][j]);
 				
-
 				if (d->GetObjType() == OBJECT_CHARACTER || d->GetObjType() == OBJECT_BUILDING) {
 					for (auto& sd : m_shootObjects[(k + 1) % TEAM_END]) d->CheckCollision(sd);
 					
@@ -122,6 +121,7 @@ void CSceneMgr::CreateNorthCharacter()
 void CSceneMgr::Render()
 {
 	const char* name;
+
 	for (int i = 0; i < TEAM_END; ++i) {
 		if (i == 0) name = "NorthBuilding";
 		else name = "SouthBuilding";
@@ -136,11 +136,16 @@ void CSceneMgr::Render()
 			}
 
 			else {
-				m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
-					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-					d->GetColor().a, d->GetRenderLevel());
+				if (d->GetTeamType() == NORTH) name = "NC";
+				else name = "SC";
+				m_renderer->DrawTexturedRectSeq(d->GetPos().x, d->GetPos().y, d->GetPos().z,
+					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a,
+					IMAGEMANAGER->GetImage()[name], d->GetRow(), d->GetCol(), 8, 8, d->GetRenderLevel());
+
 				m_renderer->DrawSolidRectGauge(d->GetPos().x, d->GetPos().y + d->GetSize(), d->GetPos().z,
 					d->GetSize(), d->GetSize() / 5.0f, d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a, d->GetLifePercent(), LEVEL_GOD);
+
+
 			}
 		}
 
@@ -148,8 +153,21 @@ void CSceneMgr::Render()
 			m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 				d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
 				d->GetColor().a, d->GetRenderLevel());
+
+			if (d->GetObjType() == OBJECT_BULLET) {
+				m_renderer->DrawParticle(d->GetPos().x, d->GetPos().y, d->GetPos().z,
+					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
+					d->GetColor().a, d->GetDir().x, d->GetDir().y, IMAGEMANAGER->GetImage()["Fire"], 10000);
+			}
 		}
 	}
+
+	
+	// Render BackGround
+	m_renderer->DrawTexturedRect(0.0f, 0.0f, 0.0f,
+		WINDOW_HEIGHT, 1.0f, 1.0f, 1.0f,
+		0.2f, IMAGEMANAGER->GetImage()["BackGround"], LEVEL_UNDERGROUND);
+		
 }
 
 void CSceneMgr::Update(float time)

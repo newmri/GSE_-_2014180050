@@ -109,6 +109,9 @@ public:
 	const TEAMTYPE& GetTeamType() { return m_objInfo.teamType; }
 	const float& GetRenderLevel() { return m_objInfo.renderLevel; }
 	const float GetLifePercent() { return m_objInfo.life / m_objInfo.maxLife; }
+	const int& GetCol() { return m_col; }
+	const int& GetRow() { return m_row; }
+	const POINT& GetDir() { return m_dir; }
 	const bool DoHavetoBeRemoved()
 	{
 		return (m_objInfo.life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));
@@ -133,5 +136,7 @@ protected:
 	DWORD			m_bulletSpawnTime;
 	DWORD			m_arrowSpawnTime;
 	float			m_lifeTime, m_elapsedLifeTime;
+	int				m_col, m_row;
+	POINT			m_dir;
 
 };
