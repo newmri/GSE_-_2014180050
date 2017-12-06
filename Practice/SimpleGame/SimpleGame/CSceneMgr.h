@@ -3,6 +3,7 @@
 #include "Define.h"
 #include "Renderer.h"
 #include "Objects.h"
+#include "Sound.h"
 
 class CSceneMgr
 {
@@ -75,4 +76,6 @@ private:
 	DWORD m_characterTime[2];
 	shared_ptr<Renderer> m_renderer;
 	unsigned int m_id;
+	Sound* m_sound;
+
 };

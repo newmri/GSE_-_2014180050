@@ -1,2 +1,5 @@
-﻿  SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
+﻿  CSceneMgr.cpp
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(168): warning C4244: 'argument': conversion from 'const LONG' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(177): warning C4244: 'argument': conversion from 'const unsigned int' to 'float', possible loss of data
+  SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
   SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.pdb (Partial PDB)

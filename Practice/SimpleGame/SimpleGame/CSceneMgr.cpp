@@ -13,7 +13,10 @@ void CSceneMgr::Init()
 	for(int i = 0; i < TEAM_END - 1; ++i) m_characterTime[i] = GetTickCount();
 	m_characterTime[NORTH] = 0;
 	cout << "SceneManager is initialized!" << endl;
-	
+	m_sound = new Sound();
+	int soundBG = m_sound->CreateSound("Dependencies//SoundSamples//MF-W-90.XM");
+	m_sound->PlaySounds(soundBG, true, 0.2f);
+
 }
 
 void CSceneMgr::InitNorthTeam()
@@ -133,6 +136,8 @@ void CSceneMgr::Render()
 
 				m_renderer->DrawSolidRectGauge(d->GetPos().x, d->GetPos().y + d->GetSize() / 1.5f, d->GetPos().z,
 					d->GetSize(), d->GetSize() / 10.0f, d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a, d->GetLifePercent(), LEVEL_GOD);
+
+				m_renderer->DrawTexts(d->GetPos().x - d->GetSize() / 1.4f, d->GetPos().y + d->GetSize() / 1.5f, GLUT_STROKE_ROMAN, d->GetColor().r, d->GetColor().g, d->GetColor().b, "HP: ");
 			}
 
 			else {
@@ -142,11 +147,14 @@ void CSceneMgr::Render()
 					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a,
 					IMAGEMANAGER->GetImage()[name], d->GetRow(), d->GetCol(), 8, 8, d->GetRenderLevel());
 
+
 				m_renderer->DrawSolidRectGauge(d->GetPos().x, d->GetPos().y + d->GetSize(), d->GetPos().z,
 					d->GetSize(), d->GetSize() / 5.0f, d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a, d->GetLifePercent(), LEVEL_GOD);
 
 
 			}
+			
+
 		}
 
 		for (auto& d : m_shootObjects[i]) {
@@ -167,7 +175,9 @@ void CSceneMgr::Render()
 	m_renderer->DrawTexturedRect(0.0f, 0.0f, 0.0f,
 		WINDOW_HEIGHT, 1.0f, 1.0f, 1.0f,
 		0.2f, IMAGEMANAGER->GetImage()["BackGround"], LEVEL_UNDERGROUND);
-		
+
+	
+
 }
 
 void CSceneMgr::Update(float time)
