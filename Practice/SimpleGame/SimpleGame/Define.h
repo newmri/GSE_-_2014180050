@@ -13,7 +13,7 @@ using namespace chrono;
 
 static const float CHARACTER_LIFE = 100.0f;
 static const float CHARACTER_SPEED = 300.0f;
-static const float CHARACTER_SIZE = 30.0f;
+static const float CHARACTER_SIZE = 50.0f;
 
 static const float BUILDING_LIFE = 500.0f;
 static const float BUILDING_SPEED = 0.0f;

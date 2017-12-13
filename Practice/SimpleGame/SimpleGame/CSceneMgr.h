@@ -74,6 +74,7 @@ private:
 	vector<shared_ptr<CObject>> m_shootObjects[2];
 	DWORD m_time;
 	DWORD m_characterTime[2];
+	DWORD m_snowTime;
 	shared_ptr<Renderer> m_renderer;
 	unsigned int m_id;
 	Sound* m_sound;

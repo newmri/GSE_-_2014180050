@@ -102,6 +102,7 @@ public:
 	const OBJTYPE& GetObjType() { return m_objInfo.objType; }
 	const Pos& GetPos() { return m_objInfo.pos; }
 	const Color& GetColor() { return m_objInfo.color; }
+	const Color& GetParticleColor() { return m_particleColor; }
 	const float& GetSize() { return m_objInfo.size; }
 	const float& GetLife() { return m_objInfo.life; }
 	const unsigned int& GetID() { return m_objInfo.id; }
@@ -112,6 +113,7 @@ public:
 	const int& GetCol() { return m_col; }
 	const int& GetRow() { return m_row; }
 	const POINT& GetDir() { return m_dir; }
+	const DWORD& GetParticleTime() { return m_particleTime; }
 	const bool DoHavetoBeRemoved()
 	{
 		return (m_objInfo.life <= 0 || (m_elapsedLifeTime / 1000.0f >= m_lifeTime));
@@ -132,9 +134,12 @@ protected:
 	ObjectInfo	    m_objInfo;
 	Pos				m_vPos;
 	Color			m_backUpColor;
+	Color			m_particleColor;
 	float			m_time;
 	DWORD			m_bulletSpawnTime;
 	DWORD			m_arrowSpawnTime;
+	DWORD			m_particleTime;
+	DWORD			m_animationTime;
 	float			m_lifeTime, m_elapsedLifeTime;
 	int				m_col, m_row;
 	POINT			m_dir;

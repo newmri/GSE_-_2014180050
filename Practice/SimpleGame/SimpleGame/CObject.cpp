@@ -7,7 +7,8 @@ void CObject::Init(const ObjectInfo objInfo)
 	m_objInfo = objInfo;
 	m_backUpColor = objInfo.color;
 	m_lifeTime = LIFE_TIME;
-
+	m_particleTime = 0;
+	m_animationTime = 0;
 	float speed{};
 	switch (m_objInfo.objType) {
 	case OBJTYPE::OBJECT_BUILDING:
@@ -25,6 +26,7 @@ void CObject::Init(const ObjectInfo objInfo)
 		m_objInfo.life = BULLET_LIFE; 
 		m_objInfo.maxLife = m_objInfo.life;
 		speed = BULLET_SPEED; 
+		m_particleColor = m_objInfo.color;
 		break;
 	case OBJTYPE::OBJECT_ARROW: 
 		m_objInfo.life = ARROW_LIFE; 
@@ -112,7 +114,10 @@ void CObject::Move()
 		case 600: m_col = RU; m_dir.x = 1.0f; m_dir.y = 1.0f; break;
 		case -600: m_col = LD; m_dir.x = -1.0f; m_dir.y = -1.0f; break;
 		}
-		m_row = (m_row + 1) % 8;
+		if (m_animationTime > 1000 / 8) {
+			m_row = (m_row + 1) % 8;
+			m_animationTime = 0;
+		}
 	}
 
 	if (m_objInfo.objType == OBJTYPE::OBJECT_BULLET) {
@@ -164,7 +169,16 @@ void CObject::Update(float time)
 	m_elapsedLifeTime += m_time;
 
 	if (m_objInfo.objType == OBJTYPE::OBJECT_BUILDING) this->SpawnBullet();
-	if (m_objInfo.objType == OBJTYPE::OBJECT_CHARACTER) this->SpawnArrow();
+	if (m_objInfo.objType == OBJTYPE::OBJECT_CHARACTER) {
+		m_animationTime += time;
+		this->SpawnArrow();
+	}
+	if (m_objInfo.objType == OBJTYPE::OBJECT_BULLET) {
+		if(m_particleTime < 1000) m_particleTime += time;
+		else {
+			if(m_particleColor.a > -0.1f) m_particleColor.a -= 0.1f;
+		}
+	}
 
 	this->Move();
 }

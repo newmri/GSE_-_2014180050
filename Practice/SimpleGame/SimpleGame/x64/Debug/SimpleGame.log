@@ -1,5 +1,11 @@
-﻿  CSceneMgr.cpp
-s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(168): warning C4244: 'argument': conversion from 'const LONG' to 'float', possible loss of data
-s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(177): warning C4244: 'argument': conversion from 'const unsigned int' to 'float', possible loss of data
+﻿  SimpleGame.cpp
+  CSceneMgr.cpp
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(128): warning C4305: 'argument': truncation from 'double' to 'float'
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(128): warning C4244: 'argument': conversion from 'DWORD' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(172): warning C4244: 'argument': conversion from 'const DWORD' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(172): warning C4244: 'argument': conversion from 'const LONG' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(181): warning C4244: 'argument': conversion from 'const unsigned int' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(192): warning C4244: '+=': conversion from 'float' to 'DWORD', possible loss of data
+  Generating Code...
   SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
   SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.pdb (Partial PDB)

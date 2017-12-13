@@ -16,6 +16,7 @@ void CSceneMgr::Init()
 	m_sound = new Sound();
 	int soundBG = m_sound->CreateSound("Dependencies//SoundSamples//MF-W-90.XM");
 	m_sound->PlaySounds(soundBG, true, 0.2f);
+	m_snowTime = 0;
 
 }
 
@@ -123,6 +124,9 @@ void CSceneMgr::CreateNorthCharacter()
 
 void CSceneMgr::Render()
 {
+
+	m_renderer->DrawParticleClimate(0, 0, 0, 1, 1, 1, 1, 1, -0.1, -0.1, IMAGEMANAGER->GetImage()["Snow"], m_snowTime, 0.01);
+
 	const char* name;
 
 	for (int i = 0; i < TEAM_END; ++i) {
@@ -137,7 +141,7 @@ void CSceneMgr::Render()
 				m_renderer->DrawSolidRectGauge(d->GetPos().x, d->GetPos().y + d->GetSize() / 1.5f, d->GetPos().z,
 					d->GetSize(), d->GetSize() / 10.0f, d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a, d->GetLifePercent(), LEVEL_GOD);
 
-				m_renderer->DrawTexts(d->GetPos().x - d->GetSize() / 1.4f, d->GetPos().y + d->GetSize() / 1.5f, GLUT_STROKE_ROMAN, d->GetColor().r, d->GetColor().g, d->GetColor().b, "HP: ");
+				m_renderer->DrawText(d->GetPos().x - d->GetSize() / 1.4f, d->GetPos().y + d->GetSize() / 1.5f, GLUT_STROKE_ROMAN, d->GetColor().r, d->GetColor().g, d->GetColor().b, "HP: ");
 			}
 
 			else {
@@ -162,10 +166,10 @@ void CSceneMgr::Render()
 				d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
 				d->GetColor().a, d->GetRenderLevel());
 
-			if (d->GetObjType() == OBJECT_BULLET) {
+			if (d->GetObjType() == OBJECT_BULLET && d->GetParticleColor().a > 0.0f) {
 				m_renderer->DrawParticle(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-					d->GetColor().a, d->GetDir().x, d->GetDir().y, IMAGEMANAGER->GetImage()["Fire"], 10000);
+					d->GetParticleColor().a, d->GetDir().x, d->GetDir().y, IMAGEMANAGER->GetImage()["Fire"], d->GetParticleTime(), LEVEL_UNDERGROUND);
 			}
 		}
 	}
@@ -185,7 +189,7 @@ void CSceneMgr::Update(float time)
 
 	this->CheckCollision();
 	this->CreateNorthCharacter();
-
+	m_snowTime += time;
 	for (int i = 0; i < TEAM_END; ++i) {
 		for (auto& d : m_objects[i]) d->Update(time);
 		for (auto& d : m_shootObjects[i]) d->Update(time);

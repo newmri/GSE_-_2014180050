@@ -31,8 +31,8 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Renderer Test
-	SCENEMANAGER->Render();
 	SCENEMANAGER->Update(static_cast<float>(elpsedTime.count()));
+	SCENEMANAGER->Render();
 	glutSwapBuffers();
 }
 
