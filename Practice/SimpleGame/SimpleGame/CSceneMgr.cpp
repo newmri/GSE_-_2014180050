@@ -165,11 +165,12 @@ void CSceneMgr::Render()
 			m_renderer->DrawSolidRect(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 				d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
 				d->GetColor().a, d->GetRenderLevel());
-
+			if (i == SOUTH) name = "Fire";
+			else name = "Ice";
 			if (d->GetObjType() == OBJECT_BULLET && d->GetParticleColor().a > 0.0f) {
 				m_renderer->DrawParticle(d->GetPos().x, d->GetPos().y, d->GetPos().z,
 					d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b,
-					d->GetParticleColor().a, d->GetDir().x, d->GetDir().y, IMAGEMANAGER->GetImage()["Fire"], d->GetParticleTime(), LEVEL_UNDERGROUND);
+					d->GetParticleColor().a, d->GetDir().x, d->GetDir().y, IMAGEMANAGER->GetImage()[name], d->GetParticleTime(), LEVEL_UNDERGROUND);
 			}
 		}
 	}
@@ -178,7 +179,7 @@ void CSceneMgr::Render()
 	// Render BackGround
 	m_renderer->DrawTexturedRect(0.0f, 0.0f, 0.0f,
 		WINDOW_HEIGHT, 1.0f, 1.0f, 1.0f,
-		0.2f, IMAGEMANAGER->GetImage()["BackGround"], LEVEL_UNDERGROUND);
+		0.3f, IMAGEMANAGER->GetImage()["BackGround"], LEVEL_UNDERGROUND);
 
 	
 
