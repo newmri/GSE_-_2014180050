@@ -6,7 +6,7 @@ Renderer::Renderer(int windowSizeX, int windowSizeY)
 {
 	m_ParticleCount = 1000;
 	m_ParticleVertexCount = m_ParticleCount * 2 * 3;
-	m_ParticleCloudCount = 100;
+	m_ParticleCloudCount = 300;
 	m_ParticleCloudVertexCount = m_ParticleCloudCount * 2 * 3;
 
 	Initialize(windowSizeX, windowSizeY);

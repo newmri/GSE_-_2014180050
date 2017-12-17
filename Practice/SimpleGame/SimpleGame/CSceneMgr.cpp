@@ -16,7 +16,7 @@ void CSceneMgr::Init()
 	m_sound = new Sound();
 	int soundBG = m_sound->CreateSound("Dependencies//SoundSamples//MF-W-90.XM");
 	m_sound->PlaySounds(soundBG, true, 0.2f);
-	m_snowTime = 0;
+	m_rainTime = 0.0f;
 
 }
 
@@ -125,7 +125,7 @@ void CSceneMgr::CreateNorthCharacter()
 void CSceneMgr::Render()
 {
 
-	m_renderer->DrawParticleClimate(0, 0, 0, 1, 1, 1, 1, 1, -0.1, -0.1, IMAGEMANAGER->GetImage()["Snow"], m_snowTime, 0.01);
+	m_renderer->DrawParticleClimate(0, 0, 0, 1, 1, 1, 1, 1, 0, -0.1, IMAGEMANAGER->GetImage()["Snow"], m_rainTime, 0.01);
 
 	const char* name;
 
@@ -190,7 +190,7 @@ void CSceneMgr::Update(float time)
 
 	this->CheckCollision();
 	this->CreateNorthCharacter();
-	m_snowTime += time;
+	m_rainTime += time * 0.001f;
 	for (int i = 0; i < TEAM_END; ++i) {
 		for (auto& d : m_objects[i]) d->Update(time);
 		for (auto& d : m_shootObjects[i]) d->Update(time);
