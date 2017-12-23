@@ -51,6 +51,7 @@ void MouseInput(int button, int state, int x, int y)
 			if (pos.y > 0.0f || !SCENEMANAGER->CanCreateSouthCharacter()) return;
 			ObjectInfo info(SCENEMANAGER->GetID(), OWNER::NONE, SOUTH, OBJTYPE::OBJECT_CHARACTER, pos, CHARACTER_SIZE, Color(0.0f, 0.0f, 1.0f, 1.0f), LEVEL_GROUND);
 			SCENEMANAGER->AddSouthObject(FACTORYMANAGER->CreateObj(info));
+			SCENEMANAGER->PlayeSpawnSound();
 		}
 		
 	}

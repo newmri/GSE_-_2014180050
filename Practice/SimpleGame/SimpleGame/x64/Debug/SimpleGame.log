@@ -1,7 +1,7 @@
 ﻿  CSceneMgr.cpp
-s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(128): warning C4305: 'argument': truncation from 'double' to 'float'
-s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(173): warning C4244: 'argument': conversion from 'const DWORD' to 'float', possible loss of data
-s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(173): warning C4244: 'argument': conversion from 'const LONG' to 'float', possible loss of data
-s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(182): warning C4244: 'argument': conversion from 'const unsigned int' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(132): warning C4305: 'argument': truncation from 'double' to 'float'
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(177): warning C4244: 'argument': conversion from 'const DWORD' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(177): warning C4244: 'argument': conversion from 'const LONG' to 'float', possible loss of data
+s:\kpu\4-2\game software enginnering\practice\simplegame\simplegame\cscenemgr.cpp(186): warning C4244: 'argument': conversion from 'const unsigned int' to 'float', possible loss of data
   SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.exe
   SimpleGame.vcxproj -> S:\KPU\4-2\Game Software Enginnering\Practice\SimpleGame\x64\Debug\SimpleGame.pdb (Partial PDB)

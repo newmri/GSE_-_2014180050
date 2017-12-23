@@ -14,8 +14,10 @@ void CSceneMgr::Init()
 	m_characterTime[NORTH] = 0;
 	cout << "SceneManager is initialized!" << endl;
 	m_sound = new Sound();
-	int soundBG = m_sound->CreateSound("Dependencies//SoundSamples//MF-W-90.XM");
-	m_sound->PlaySounds(soundBG, true, 0.2f);
+	int soundBG = m_sound->CreateSound("Dependencies//SoundSamples//BGM.mp3");
+	m_bulletShotSound = m_sound->CreateSound("Dependencies//SoundSamples//Shot.mp3");
+	m_characterSpawnSound = m_sound->CreateSound("Dependencies//SoundSamples//CharacterSpawn.wav");
+	m_sound->PlaySounds(soundBG, true, 0.5f);
 	m_rainTime = 0.0f;
 
 }
@@ -119,6 +121,8 @@ void CSceneMgr::CreateNorthCharacter()
 			pos, CHARACTER_SIZE, Color(1.0f, 0.0f, 0.0f, 1.0f), LEVEL_GROUND);
 		SCENEMANAGER->AddNorthObject(FACTORYMANAGER->CreateObj(info));
 		m_characterTime[NORTH] = GetTickCount();
+
+		this->PlayeSpawnSound();
 	}
 }
 

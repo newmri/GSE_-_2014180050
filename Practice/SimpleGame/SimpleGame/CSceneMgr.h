@@ -33,7 +33,7 @@ public:
 	}
 public:
 
-	void AddNorthObject(shared_ptr<CObject> obj) { m_objects[NORTH].emplace_back(obj); }
+	void AddNorthObject(shared_ptr<CObject> obj){ m_objects[NORTH].emplace_back(obj); }
 	void AddSouthObject(shared_ptr<CObject> obj) { m_objects[SOUTH].emplace_back(obj); }
 
 public:
@@ -51,8 +51,16 @@ public:
 	const unsigned int GetID() { return m_id++; }
 
 public:
-	void AddNorthShootObjects(const ObjectInfo& obj) { m_shootObjects[NORTH].emplace_back(FACTORYMANAGER->CreateObj(obj)); };
-	void AddSouthShootObjects(const ObjectInfo& obj) { m_shootObjects[SOUTH].emplace_back(FACTORYMANAGER->CreateObj(obj)); };
+	void AddNorthShootObjects(const ObjectInfo& obj)
+	{
+		m_shootObjects[NORTH].emplace_back(FACTORYMANAGER->CreateObj(obj)); 
+		if(obj.objType == OBJECT_BULLET) m_sound->PlaySounds(m_bulletShotSound, false, 0.15f);
+	}
+	void AddSouthShootObjects(const ObjectInfo& obj)
+	{
+		m_shootObjects[SOUTH].emplace_back(FACTORYMANAGER->CreateObj(obj)); 
+		if (obj.objType == OBJECT_BULLET) m_sound->PlaySounds(m_bulletShotSound, false, 0.15f);
+	};
 
 public:
 	void CreateNorthCharacter();
@@ -67,6 +75,9 @@ public:
 	}
 
 public:
+	void PlayeSpawnSound() { m_sound->PlaySounds(m_characterSpawnSound, false, 0.5f); }
+
+public:
 	int LoadImages(char* filePath) { return m_renderer->CreatePngTexture(filePath); }
 private:
 	static CSceneMgr* m_instance;
@@ -78,5 +89,7 @@ private:
 	shared_ptr<Renderer> m_renderer;
 	unsigned int m_id;
 	Sound* m_sound;
+	int m_bulletShotSound;
+	int m_characterSpawnSound;
 
 };
